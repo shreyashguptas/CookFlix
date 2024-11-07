@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+// Add this import if Recipe.swift is in a separate module
+// import YourModuleName 
+
 struct ContentView: View {
     @State private var showingAddRecipe = false
     // Sample data - later this would come from your data source
@@ -31,17 +34,16 @@ struct ContentView: View {
             }
             .navigationTitle("CookFlix")
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         showingAddRecipe = true
                     } label: {
                         Image(systemName: "plus")
-                            .font(.system(size: 20))
+                            .font(.system(size: 16, weight: .bold))
                             .foregroundColor(.white)
-                            .background(.blue)
-                            .clipShape(.circle)
-                            .padding(.top, 90)
-                            .padding(.trailing, 10)
+                            .frame(width: 30, height: 30)
+                            .background(Color.blue)
+                            .clipShape(Circle())
                     }
                 }
             }
@@ -94,13 +96,66 @@ struct AddRecipeView: View {
     @Binding var isPresented: Bool
     @State private var title = ""
     @State private var summary = ""
+    @State private var ingredients: [Ingredient] = []
+    @State private var instructions: [String] = []
+    @State private var newIngredientName = ""
+    @State private var newIngredientQuantity = ""
+    @State private var newIngredientUnit = MeasurementUnit.cup
+    @State private var newInstruction = ""
     
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Recipe Details")) {
-                    TextField("Recipe Title", text: $title)
-                    TextField("Summary", text: $summary)
+                Section(header: Text("Recipe Name")) {
+                    TextField("Enter recipe name", text: $title)
+                }
+                
+                Section(header: Text("Ingredients")) {
+                    ForEach(ingredients) { ingredient in
+                        Text("\(ingredient.name) - \(ingredient.quantity) \(ingredient.unit.rawValue)")
+                    }
+                    
+                    HStack {
+                        TextField("Ingredient name", text: $newIngredientName)
+                        TextField("138", text: $newIngredientQuantity)
+                            .keyboardType(.decimalPad)
+                            .frame(width: 60)
+                        Picker("Unit", selection: $newIngredientUnit) {
+                            ForEach(MeasurementUnit.allCases, id: \.self) { unit in
+                                Text(unit.rawValue).tag(unit)
+                            }
+                        }
+                        .frame(width: 100)
+                    }
+                    
+                    Button("Add Ingredient") {
+                        if let quantity = Double(newIngredientQuantity), !newIngredientName.isEmpty {
+                            ingredients.append(Ingredient(name: newIngredientName,
+                                                       quantity: quantity,
+                                                       unit: newIngredientUnit))
+                            newIngredientName = ""
+                            newIngredientQuantity = ""
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .buttonStyle(.bordered)
+                }
+                
+                Section(header: Text("Instructions")) {
+                    ForEach(Array(instructions.enumerated()), id: \.offset) { index, instruction in
+                        Text("Step \(index + 1): \(instruction)")
+                    }
+                    
+                    TextField("Step \(instructions.count + 1)", text: $newInstruction)
+                    
+                    Button("Add Step") {
+                        if !newInstruction.isEmpty {
+                            instructions.append(newInstruction)
+                            newInstruction = ""
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .buttonStyle(.bordered)
                 }
             }
             .navigationTitle("Add Recipe")
@@ -111,7 +166,7 @@ struct AddRecipeView: View {
                     }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") {
+                    Button("Add to Recipe List") {
                         // TODO: Add save functionality
                         isPresented = false
                     }
