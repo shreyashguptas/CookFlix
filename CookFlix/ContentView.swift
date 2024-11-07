@@ -37,7 +37,11 @@ struct ContentView: View {
                     } label: {
                         Image(systemName: "plus")
                             .font(.system(size: 20))
-                            .foregroundColor(.blue)
+                            .foregroundColor(.white)
+                            .background(.blue)
+                            .clipShape(.circle)
+                            .padding(.top, 90)
+                            .padding(.trailing, 10)
                     }
                 }
             }
