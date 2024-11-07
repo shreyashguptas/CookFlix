@@ -1,0 +1,6 @@
+{\rtf1\ansi\ansicpg1252\cocoartf949
+{\fonttbl}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww9000\viewh8400\viewkind0
+}
+An app that allows me to input my recipes manually. I can put the name, ingredients, measuring cups, quantities, and instructions. With the instructions on the left, I want to be able to (when I make the recipe for the first time) put images of how it should be looking. It will also store movies and TV shows their families want to see it's gonna have those along with what the genre of it is and the ratings the IMDb and Rotten Tomato ratings on it and then families can share these lists with each other for let's say one household they can share the recipes in the movie/tv shows recommendations with each other and as days go by they are able to keep a track of what they watch what they haven't watched and then also what they can cope with it cannot all of that
