@@ -14,23 +14,38 @@ struct CookFlixApp: App {
     
     var body: some Scene {
         WindowGroup {
-            Group {
-                if !hasSeenWelcomeScreen {
-                    WelcomeView(isWelcomeScreenDismissed: .init(
-                        get: { !hasSeenWelcomeScreen },
-                        set: { hasSeenWelcomeScreen = !$0 }
-                    ))
-                    .transition(.opacity)
-                } else if !authManager.isAuthenticated {
-                    AuthView()
-                        .transition(.opacity)
-                } else {
-                    ContentView()
-                        .transition(.opacity)
+            NavigationView {
+                Group {
+                    switch appState {
+                    case .welcome:
+                        WelcomeView(isWelcomeScreenDismissed: .init(
+                            get: { !hasSeenWelcomeScreen },
+                            set: { hasSeenWelcomeScreen = !$0 }
+                        ))
+                    case .authentication:
+                        AuthView()
+                    case .main:
+                        ContentView()
+                    }
                 }
+                .animation(.easeInOut, value: appState)
             }
-            .animation(.easeInOut, value: hasSeenWelcomeScreen)
-            .animation(.easeInOut, value: authManager.isAuthenticated)
         }
     }
+    
+    private var appState: AppState {
+        if !hasSeenWelcomeScreen {
+            return .welcome
+        } else if !authManager.isAuthenticated {
+            return .authentication
+        } else {
+            return .main
+        }
+    }
+}
+
+private enum AppState {
+    case welcome
+    case authentication
+    case main
 }
