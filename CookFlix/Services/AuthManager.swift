@@ -14,11 +14,7 @@ class AuthManager: ObservableObject {
     }
     
     func checkAuthStatus() async {
-        if let session = supabase.client.auth.currentSession {
-            isAuthenticated = true
-        } else {
-            isAuthenticated = false
-        }
+        isAuthenticated = supabase.client.auth.currentSession != nil
     }
     
     func signIn(email: String, password: String) async throws {

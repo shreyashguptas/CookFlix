@@ -95,8 +95,8 @@ struct AuthView: View {
             } message: {
                 Text("We've sent a confirmation link to your email. Please verify your account within 1 hour to continue.")
             }
-            .onChange(of: viewModel.shouldShowConfirmationAlert) { newValue in
-                if newValue {
+            .onChange(of: viewModel.shouldShowConfirmationAlert) {
+                if viewModel.shouldShowConfirmationAlert {
                     showingConfirmationAlert = true
                     viewModel.shouldShowConfirmationAlert = false
                 }
