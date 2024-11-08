@@ -14,6 +14,12 @@ class AddRecipeViewModel: ObservableObject {
     @Published var newIngredientUnit = MeasurementUnit.cup
     @Published var newInstruction = ""
     
+    private var recipeListViewModel: RecipeListViewModel
+    
+    init(recipeListViewModel: RecipeListViewModel) {
+        self.recipeListViewModel = recipeListViewModel
+    }
+    
     func addIngredient() {
         if let quantity = Double(newIngredientQuantity), !newIngredientName.isEmpty {
             ingredients.append(Ingredient(name: newIngredientName,
@@ -42,6 +48,7 @@ class AddRecipeViewModel: ObservableObject {
             cookingTime: cookingTime,
             servings: servings
         )
-        // TODO: Save the recipe to your data store
+        
+        recipeListViewModel.addRecipe(recipe)
     }
 } 

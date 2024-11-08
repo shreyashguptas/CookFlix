@@ -27,12 +27,15 @@ struct ContentView: View {
                 }
             }
             .sheet(isPresented: $showingAddRecipe) {
-                AddRecipeView(isPresented: $showingAddRecipe)
+                AddRecipeView(isPresented: $showingAddRecipe, recipeListViewModel: viewModel)
             }
         }
     }
-} 
+}
 
-#Preview {
-    ContentView()
+// Preview provider
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
 }

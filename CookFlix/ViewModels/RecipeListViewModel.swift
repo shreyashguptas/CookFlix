@@ -13,5 +13,7 @@ class RecipeListViewModel: ObservableObject {
                imageName: "soup")
     ]
     
-    // Add methods for CRUD operations
+    func addRecipe(_ recipe: Recipe) {
+        recipes.append(recipe)
+    }
 } 

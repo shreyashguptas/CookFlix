@@ -2,7 +2,14 @@ import SwiftUI
 
 struct AddRecipeView: View {
     @Binding var isPresented: Bool
-    @StateObject private var viewModel = AddRecipeViewModel()
+    @ObservedObject var recipeListViewModel: RecipeListViewModel
+    @StateObject private var viewModel: AddRecipeViewModel
+    
+    init(isPresented: Binding<Bool>, recipeListViewModel: RecipeListViewModel) {
+        self._isPresented = isPresented
+        self.recipeListViewModel = recipeListViewModel
+        self._viewModel = StateObject(wrappedValue: AddRecipeViewModel(recipeListViewModel: recipeListViewModel))
+    }
     
     var body: some View {
         NavigationView {
