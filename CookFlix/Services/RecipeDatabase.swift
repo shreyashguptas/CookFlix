@@ -19,6 +19,7 @@ class RecipeDatabase {
                 preparation_time,
                 cooking_time,
                 servings,
+                user_id,
                 ingredients:ingredients(
                     id,
                     name,
@@ -36,34 +37,35 @@ class RecipeDatabase {
             .order("created_at", ascending: false)
             .execute()
         
-        print("Raw response: \(String(describing: response))") // Debug raw response
         print("Fetched \(response.value.count) recipes") // Debug count
         
         let recipes = response.value.map { $0.toRecipe() }
-        print("Mapped recipes: \(recipes)") // Debug mapped data
         return recipes
     }
     
     func saveRecipe(_ recipe: Recipe) async throws {
         print("Saving recipe: \(recipe.title)") // Debug log
         
-        // First save the recipe
+        // Get current user ID
+        guard let userId = try? await supabase.client.auth.session.user.id else {
+            throw AppError.authenticationError("User not authenticated")
+        }
+        
+        // First save the recipe with user_id
+        let recipeRequest = RecipeRequest(from: recipe, userId: userId)
         let response: PostgrestResponse<[RecipeResponse]> = try await supabase.client
             .from("recipes")
-            .insert(RecipeRequest(from: recipe))
-            .select() // Add select() to get the inserted record
-            .single() // Ensure we get a single record
+            .insert(recipeRequest)
+            .select()
+            .single()
             .execute()
         
         guard let recipeId = response.value.first?.id else {
             throw AppError.databaseError("Failed to get recipe ID")
         }
         
-        print("Saved recipe with ID: \(recipeId)") // Debug log
-        
         // Then save ingredients
         if let ingredients = recipe.ingredients, !ingredients.isEmpty {
-            print("Saving \(ingredients.count) ingredients") // Debug log
             let _: PostgrestResponse<[IngredientResponse]> = try await supabase.client
                 .from("ingredients")
                 .insert(ingredients.map { IngredientRequest(ingredient: $0, recipeId: recipeId) })
@@ -72,7 +74,6 @@ class RecipeDatabase {
         
         // Finally save instructions
         if let instructions = recipe.instructions, !instructions.isEmpty {
-            print("Saving \(instructions.count) instructions") // Debug log
             let _: PostgrestResponse<[InstructionResponse]> = try await supabase.client
                 .from("instructions")
                 .insert(instructions.enumerated().map { 
@@ -164,14 +165,16 @@ struct RecipeRequest: Codable {
     let preparationTime: String?
     let cookingTime: String?
     let servings: String?
+    let userId: UUID
     
-    init(from recipe: Recipe) {
+    init(from recipe: Recipe, userId: UUID) {
         self.title = recipe.title
         self.summary = recipe.summary
         self.imageName = recipe.imageName
         self.preparationTime = recipe.preparationTime
         self.cookingTime = recipe.cookingTime
         self.servings = recipe.servings
+        self.userId = userId
     }
     
     enum CodingKeys: String, CodingKey {
@@ -181,6 +184,7 @@ struct RecipeRequest: Codable {
         case preparationTime = "preparation_time"
         case cookingTime = "cooking_time"
         case servings
+        case userId = "user_id"
     }
 }
 
