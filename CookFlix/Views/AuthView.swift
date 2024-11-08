@@ -78,4 +78,20 @@ struct AuthView: View {
             .navigationBarHidden(true)
         }
     }
+}
+
+// Preview provider
+struct AuthView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            // Light mode preview
+            AuthView()
+                .previewDisplayName("Light Mode")
+            
+            // Dark mode preview
+            AuthView()
+                .preferredColorScheme(.dark)
+                .previewDisplayName("Dark Mode")
+        }
+    }
 } 
