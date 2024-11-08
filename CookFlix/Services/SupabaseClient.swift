@@ -8,8 +8,10 @@ class SupabaseManager {
     let client: SupabaseClient
     
     private init() {
-        let supabaseURL = "https://lkvjcfyejtgetcedykzi.supabase.co"
-        let supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxrdmpjZnllanRnZXRjZWR5a3ppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzEwMjg5OTQsImV4cCI6MjA0NjYwNDk5NH0.CM9vwIGPySJkX-FLeIqYXJehi-K__pTp1AahsOtHv5w"
+        guard let supabaseURL = SupabaseConfig["SUPABASE_URL"],
+              let supabaseKey = SupabaseConfig["SUPABASE_ANON_KEY"] else {
+            fatalError("Missing Supabase configuration. Ensure Supabase.plist exists with required keys.")
+        }
         
         self.client = SupabaseClient(
             supabaseURL: URL(string: supabaseURL)!,
