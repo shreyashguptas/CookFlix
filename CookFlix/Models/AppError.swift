@@ -1,4 +1,6 @@
-enum AppError: LocalizedError {
+import Foundation
+
+enum AppError: Error, LocalizedError {
     case databaseError(String)
     case authenticationError(String)
     case networkError(String)
