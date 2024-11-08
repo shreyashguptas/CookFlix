@@ -6,6 +6,8 @@ class AuthViewModel: ObservableObject {
     @Published var password = ""
     @Published var error: String?
     @Published var isLoading = false
+    @Published var showSuccessMessage = false
+    @Published var shouldShowConfirmationAlert = false
     
     private let authManager = AuthManager.shared
     
@@ -14,15 +16,19 @@ class AuthViewModel: ObservableObject {
         
         isLoading = true
         error = nil
+        showSuccessMessage = false
         
         do {
             if isSignUp {
                 try await authManager.signUp(email: email, password: password)
+                showSuccessMessage = true
+                shouldShowConfirmationAlert = true
             } else {
                 try await authManager.signIn(email: email, password: password)
             }
         } catch {
             self.error = error.localizedDescription
+            showSuccessMessage = false
         }
         
         isLoading = false

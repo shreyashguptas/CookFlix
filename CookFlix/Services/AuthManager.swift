@@ -14,11 +14,9 @@ class AuthManager: ObservableObject {
     }
     
     func checkAuthStatus() async {
-        do {
-            let session = try await supabase.client.auth.session
-            isAuthenticated = session.user.id.uuidString.isEmpty == false
-        } catch {
-            print("Error checking auth status: \(error)")
+        if let session = supabase.client.auth.currentSession {
+            isAuthenticated = true
+        } else {
             isAuthenticated = false
         }
     }
@@ -30,14 +28,21 @@ class AuthManager: ObservableObject {
                 password: password
             )
             
-            if response.user.id.uuidString.isEmpty == false {
-                isAuthenticated = true
-            } else {
-                throw AuthenticationError.invalidCredentials
+            // Since response.user is not optional, we don't need if let
+            let user = response.user
+            
+            // Convert AnyJSON to Any using proper casting
+            let metadata = user.userMetadata
+            if let emailConfirmed = metadata["email_confirmed"]?.boolValue,
+               !emailConfirmed {
+                throw AuthenticationError.emailNotConfirmed
             }
             
-        } catch let error {
-            // Handle specific error messages from Supabase
+            isAuthenticated = true
+            
+        } catch let error as AuthenticationError {
+            throw error
+        } catch {
             let errorMessage = error.localizedDescription.lowercased()
             if errorMessage.contains("invalid") {
                 throw AuthenticationError.invalidCredentials
@@ -53,22 +58,28 @@ class AuthManager: ObservableObject {
         do {
             let response = try await supabase.client.auth.signUp(
                 email: email,
-                password: password
+                password: password,
+                data: ["email_confirmed": false]
             )
             
-            if response.user.id.uuidString.isEmpty == false {
-                isAuthenticated = true
-            } else {
+            // Since response.user is not optional, we don't need if let
+            let user = response.user
+            guard !user.id.uuidString.isEmpty else {
                 throw AuthenticationError.unknown("Failed to create account")
             }
             
-        } catch let error {
-            // Handle specific error messages from Supabase
+            print("User created, awaiting email confirmation")
+            
+        } catch let error as AuthenticationError {
+            throw error
+        } catch {
             let errorMessage = error.localizedDescription.lowercased()
             if errorMessage.contains("already registered") || errorMessage.contains("already exists") {
                 throw AuthenticationError.emailAlreadyInUse
             } else if errorMessage.contains("password") {
                 throw AuthenticationError.weakPassword
+            } else if errorMessage.contains("invalid email") {
+                throw AuthenticationError.invalidEmail
             } else {
                 throw AuthenticationError.unknown(error.localizedDescription)
             }
@@ -85,13 +96,13 @@ class AuthManager: ObservableObject {
     }
 }
 
-// Custom error types for better error handling
 enum AuthenticationError: LocalizedError {
     case invalidCredentials
     case userNotFound
     case weakPassword
     case emailAlreadyInUse
     case invalidEmail
+    case emailNotConfirmed
     case unknown(String)
     
     var errorDescription: String? {
@@ -106,8 +117,10 @@ enum AuthenticationError: LocalizedError {
             return "An account with this email already exists"
         case .invalidEmail:
             return "Please enter a valid email address"
+        case .emailNotConfirmed:
+            return "Please confirm your email address before signing in. Check your inbox for the confirmation link."
         case .unknown(let message):
             return "Error: \(message)"
         }
     }
-} 
+}
