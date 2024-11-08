@@ -1,4 +1,0 @@
-module Helpers {
-    header "/Users/shreyashgupta/Documents/Github/CookFlix/.build/arm64-apple-macosx/debug/Helpers.build/Helpers-Swift.h"
-    requires objc
-}

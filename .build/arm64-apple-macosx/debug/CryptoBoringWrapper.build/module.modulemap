@@ -1,4 +1,0 @@
-module CryptoBoringWrapper {
-    header "/Users/shreyashgupta/Documents/Github/CookFlix/.build/arm64-apple-macosx/debug/CryptoBoringWrapper.build/CryptoBoringWrapper-Swift.h"
-    requires objc
-}

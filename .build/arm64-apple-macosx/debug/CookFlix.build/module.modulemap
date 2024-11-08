@@ -1,4 +1,0 @@
-module CookFlix {
-    header "/Users/shreyashgupta/Documents/Github/CookFlix/.build/arm64-apple-macosx/debug/CookFlix.build/CookFlix-Swift.h"
-    requires objc
-}

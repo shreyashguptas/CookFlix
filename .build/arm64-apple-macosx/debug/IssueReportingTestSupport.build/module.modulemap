@@ -1,4 +1,0 @@
-module IssueReportingTestSupport {
-    header "/Users/shreyashgupta/Documents/Github/CookFlix/.build/arm64-apple-macosx/debug/IssueReportingTestSupport.build/IssueReportingTestSupport-Swift.h"
-    requires objc
-}
