@@ -6,9 +6,32 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            List(viewModel.recipes) { recipe in
-                NavigationLink(destination: RecipeDetailView(recipe: recipe)) {
-                    RecipeRowView(recipe: recipe)
+            Group {
+                if let error = viewModel.error {
+                    VStack {
+                        Text("Error loading recipes")
+                            .foregroundColor(.red)
+                        Text(error.localizedDescription)
+                            .font(.caption)
+                        Button("Retry") {
+                            Task {
+                                await viewModel.loadRecipes()
+                            }
+                        }
+                    }
+                } else if viewModel.recipes.isEmpty {
+                    VStack {
+                        Text("No recipes yet")
+                            .foregroundColor(.secondary)
+                        Text("Tap + to add your first recipe")
+                            .font(.caption)
+                    }
+                } else {
+                    List(viewModel.recipes) { recipe in
+                        NavigationLink(destination: RecipeDetailView(recipe: recipe)) {
+                            RecipeRowView(recipe: recipe)
+                        }
+                    }
                 }
             }
             .navigationTitle("CookFlix")
@@ -27,7 +50,17 @@ struct ContentView: View {
                 }
             }
             .sheet(isPresented: $showingAddRecipe) {
+                Task {
+                    await viewModel.loadRecipes()
+                }
+            } content: {
                 AddRecipeView(isPresented: $showingAddRecipe, recipeListViewModel: viewModel)
+            }
+            .refreshable {
+                await viewModel.loadRecipes()
+            }
+            .task {
+                await viewModel.loadRecipes()
             }
         }
     }

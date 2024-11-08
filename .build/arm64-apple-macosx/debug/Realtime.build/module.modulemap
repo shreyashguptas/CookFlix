@@ -1,0 +1,4 @@
+module Realtime {
+    header "/Users/shreyashgupta/Documents/Github/CookFlix/.build/arm64-apple-macosx/debug/Realtime.build/Realtime-Swift.h"
+    requires objc
+}

@@ -70,8 +70,10 @@ struct AddRecipeView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Add to Recipe List") {
-                        viewModel.saveRecipe()
-                        isPresented = false
+                        Task {
+                            await viewModel.saveRecipe()
+                            isPresented = false
+                        }
                     }
                     .disabled(viewModel.title.isEmpty)
                 }

@@ -6,6 +6,15 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B87C05B62CDDA533005ACA00 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = B87C05B52CDDA533005ACA00 /* Auth */; };
+		B87C05B82CDDA533005ACA00 /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = B87C05B72CDDA533005ACA00 /* Functions */; };
+		B87C05BA2CDDA533005ACA00 /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = B87C05B92CDDA533005ACA00 /* PostgREST */; };
+		B87C05BC2CDDA533005ACA00 /* Realtime in Frameworks */ = {isa = PBXBuildFile; productRef = B87C05BB2CDDA533005ACA00 /* Realtime */; };
+		B87C05BE2CDDA533005ACA00 /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = B87C05BD2CDDA533005ACA00 /* Storage */; };
+		B87C05C02CDDA533005ACA00 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = B87C05BF2CDDA533005ACA00 /* Supabase */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		B88DDF6A2CDD54D1006E648A /* CookFlix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CookFlix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +32,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B87C05BA2CDDA533005ACA00 /* PostgREST in Frameworks */,
+				B87C05B82CDDA533005ACA00 /* Functions in Frameworks */,
+				B87C05C02CDDA533005ACA00 /* Supabase in Frameworks */,
+				B87C05B62CDDA533005ACA00 /* Auth in Frameworks */,
+				B87C05BE2CDDA533005ACA00 /* Storage in Frameworks */,
+				B87C05BC2CDDA533005ACA00 /* Realtime in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +80,12 @@
 			);
 			name = CookFlix;
 			packageProductDependencies = (
+				B87C05B52CDDA533005ACA00 /* Auth */,
+				B87C05B72CDDA533005ACA00 /* Functions */,
+				B87C05B92CDDA533005ACA00 /* PostgREST */,
+				B87C05BB2CDDA533005ACA00 /* Realtime */,
+				B87C05BD2CDDA533005ACA00 /* Storage */,
+				B87C05BF2CDDA533005ACA00 /* Supabase */,
 			);
 			productName = CookFlix;
 			productReference = B88DDF6A2CDD54D1006E648A /* CookFlix.app */;
@@ -338,6 +359,39 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B87C05B52CDDA533005ACA00 /* Auth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8FE1D0D2CDDA2BE0036683F /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Auth;
+		};
+		B87C05B72CDDA533005ACA00 /* Functions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8FE1D0D2CDDA2BE0036683F /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Functions;
+		};
+		B87C05B92CDDA533005ACA00 /* PostgREST */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8FE1D0D2CDDA2BE0036683F /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = PostgREST;
+		};
+		B87C05BB2CDDA533005ACA00 /* Realtime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8FE1D0D2CDDA2BE0036683F /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Realtime;
+		};
+		B87C05BD2CDDA533005ACA00 /* Storage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8FE1D0D2CDDA2BE0036683F /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Storage;
+		};
+		B87C05BF2CDDA533005ACA00 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8FE1D0D2CDDA2BE0036683F /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B88DDF622CDD54D1006E648A /* Project object */;
 }

@@ -1,0 +1,4 @@
+module Auth {
+    header "/Users/shreyashgupta/Documents/Github/CookFlix/.build/arm64-apple-macosx/debug/Auth.build/Auth-Swift.h"
+    requires objc
+}

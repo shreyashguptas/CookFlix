@@ -1,0 +1,4 @@
+module Supabase {
+    header "/Users/shreyashgupta/Documents/Github/CookFlix/.build/arm64-apple-macosx/debug/Supabase.build/Supabase-Swift.h"
+    requires objc
+}

@@ -1,10 +1,11 @@
 import Foundation
 import Supabase
+import PostgREST
 
-class SupabaseClient {
-    static let shared = SupabaseClient()
+class SupabaseManager {
+    static let shared = SupabaseManager()
     
-    private let client: SupabaseClient
+    let client: SupabaseClient
     
     private init() {
         let supabaseURL = "https://lkvjcfyejtgetcedykzi.supabase.co"

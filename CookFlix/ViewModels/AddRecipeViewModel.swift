@@ -1,5 +1,6 @@
 import Foundation
 
+@MainActor
 class AddRecipeViewModel: ObservableObject {
     @Published var title = ""
     @Published var summary = ""
@@ -37,11 +38,11 @@ class AddRecipeViewModel: ObservableObject {
         }
     }
     
-    func saveRecipe() {
+    func saveRecipe() async {
         let recipe = Recipe(
             title: title,
             summary: summary,
-            imageName: "placeholder", // You'll need to handle image saving
+            imageName: "placeholder",
             ingredients: ingredients,
             instructions: instructions,
             preparationTime: preparationTime,
@@ -49,6 +50,6 @@ class AddRecipeViewModel: ObservableObject {
             servings: servings
         )
         
-        recipeListViewModel.addRecipe(recipe)
+        await recipeListViewModel.addRecipe(recipe)
     }
 } 
