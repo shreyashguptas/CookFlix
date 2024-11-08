@@ -21,9 +21,22 @@
 		B88DDF6A2CDD54D1006E648A /* CookFlix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CookFlix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		B84498082CDEA11D00557EEA /* Exceptions for "CookFlix" folder in "CookFlix" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = B88DDF692CDD54D1006E648A /* CookFlix */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B88DDF6C2CDD54D1006E648A /* CookFlix */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				B84498082CDEA11D00557EEA /* Exceptions for "CookFlix" folder in "CookFlix" target */,
+			);
 			path = CookFlix;
 			sourceTree = "<group>";
 		};
@@ -283,6 +296,8 @@
 				DEVELOPMENT_TEAM = G4338N94PW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CookFlix/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CookFlix;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -312,6 +327,8 @@
 				DEVELOPMENT_TEAM = G4338N94PW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CookFlix/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CookFlix;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
