@@ -3,6 +3,7 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var viewModel = RecipeListViewModel()
     @State private var showingAddRecipe = false
+    @EnvironmentObject private var authManager: AuthManager
     
     var body: some View {
         NavigationView {
@@ -20,12 +21,30 @@ struct ContentView: View {
                         }
                     }
                 } else if viewModel.recipes.isEmpty {
-                    VStack {
+                    VStack(spacing: 20) {
+                        Image(systemName: "fork.knife.circle")
+                            .font(.system(size: 60))
+                            .foregroundColor(.blue)
+                        
                         Text("No recipes yet")
-                            .foregroundColor(.secondary)
+                            .font(.title2)
+                            .foregroundColor(.primary)
+                        
                         Text("Tap + to add your first recipe")
-                            .font(.caption)
+                            .font(.body)
+                            .foregroundColor(.secondary)
+                        
+                        Button(action: {
+                            showingAddRecipe = true
+                        }) {
+                            Label("Add Recipe", systemImage: "plus")
+                                .padding()
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
                     }
+                    .padding()
                 } else {
                     List(viewModel.recipes) { recipe in
                         NavigationLink(destination: RecipeDetailView(recipe: recipe)) {
@@ -34,7 +53,7 @@ struct ContentView: View {
                     }
                 }
             }
-            .navigationTitle("CookFlix")
+            .navigationTitle("My Recipes")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
@@ -46,6 +65,17 @@ struct ContentView: View {
                             .frame(width: 30, height: 30)
                             .background(Color.blue)
                             .clipShape(Circle())
+                    }
+                }
+                
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        Task {
+                            try? await authManager.signOut()
+                        }
+                    }) {
+                        Image(systemName: "rectangle.portrait.and.arrow.right")
+                            .foregroundColor(.red)
                     }
                 }
             }
@@ -66,9 +96,10 @@ struct ContentView: View {
     }
 }
 
-// Preview provider
+// Simple preview without mock data
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(AuthManager.shared)
     }
 }

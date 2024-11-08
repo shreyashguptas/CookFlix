@@ -3,26 +3,29 @@ import SwiftUI
 struct RecipeDetailView: View {
     let recipe: Recipe
     
-    // For now, these are hardcoded. Later we can add them to the Recipe model
-    let preparationTime = "1 hr"
-    let cookingTime = "45 mins"
-    let servings = "8"
-    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 // Recipe Times and Servings
-                HStack(spacing: 20) {
-                    VStack(alignment: .leading) {
-                        Text("Preparation Time: \(preparationTime)")
-                            .font(.subheadline)
-                        Text("Cooking Time: \(cookingTime)")
-                            .font(.subheadline)
-                        Text("Servings: \(servings)")
-                            .font(.subheadline)
+                if recipe.preparationTime != nil || recipe.cookingTime != nil || recipe.servings != nil {
+                    HStack(spacing: 20) {
+                        VStack(alignment: .leading) {
+                            if let prepTime = recipe.preparationTime {
+                                Text("Preparation Time: \(prepTime)")
+                                    .font(.subheadline)
+                            }
+                            if let cookTime = recipe.cookingTime {
+                                Text("Cooking Time: \(cookTime)")
+                                    .font(.subheadline)
+                            }
+                            if let servings = recipe.servings {
+                                Text("Servings: \(servings)")
+                                    .font(.subheadline)
+                            }
+                        }
                     }
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
                 
                 // Ingredients Section
                 VStack(alignment: .leading, spacing: 12) {
@@ -71,24 +74,14 @@ struct RecipeDetailView: View {
     }
 }
 
-// Preview provider for development
+// Simple preview without mock data
 struct RecipeDetailView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             RecipeDetailView(recipe: Recipe(
-                title: "Classic Apple Pie",
-                summary: "A delicious homemade apple pie",
-                imageName: "pie",
-                ingredients: [
-                    Ingredient(name: "all-purpose flour", quantity: 2, unit: .cup),
-                    Ingredient(name: "unsalted butter", quantity: 0.5, unit: .cup),
-                    Ingredient(name: "cold water", quantity: 0.75, unit: .cup)
-                ],
-                instructions: [
-                    "Mix the flour and butter in a bowl until it resembles coarse crumbs.",
-                    "Gradually add cold water, mixing until the dough forms.",
-                    "Roll out half the dough and fit into a pie plate."
-                ]
+                title: "Preview Recipe",
+                summary: "Preview summary",
+                imageName: "placeholder"
             ))
         }
     }

@@ -17,6 +17,10 @@ class AddRecipeViewModel: ObservableObject {
     
     private var recipeListViewModel: RecipeListViewModel
     
+    var isValid: Bool {
+        !title.isEmpty && !summary.isEmpty
+    }
+    
     init(recipeListViewModel: RecipeListViewModel) {
         self.recipeListViewModel = recipeListViewModel
     }
@@ -31,11 +35,19 @@ class AddRecipeViewModel: ObservableObject {
         }
     }
     
+    func deleteIngredient(at offsets: IndexSet) {
+        ingredients.remove(atOffsets: offsets)
+    }
+    
     func addInstruction() {
         if !newInstruction.isEmpty {
             instructions.append(newInstruction)
             newInstruction = ""
         }
+    }
+    
+    func deleteInstruction(at offsets: IndexSet) {
+        instructions.remove(atOffsets: offsets)
     }
     
     func saveRecipe() async {

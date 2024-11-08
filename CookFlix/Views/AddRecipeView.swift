@@ -4,6 +4,7 @@ struct AddRecipeView: View {
     @Binding var isPresented: Bool
     @ObservedObject var recipeListViewModel: RecipeListViewModel
     @StateObject private var viewModel: AddRecipeViewModel
+    @Environment(\.dismiss) private var dismiss
     
     init(isPresented: Binding<Bool>, recipeListViewModel: RecipeListViewModel) {
         self._isPresented = isPresented
@@ -15,69 +16,78 @@ struct AddRecipeView: View {
         NavigationView {
             Form {
                 Section(header: Text("Recipe Details")) {
-                    TextField("Enter recipe name", text: $viewModel.title)
-                    TextField("Enter recipe summary", text: $viewModel.summary)
-                    TextField("Preparation time (e.g., 1 hr)", text: $viewModel.preparationTime)
-                    TextField("Cooking time (e.g., 45 mins)", text: $viewModel.cookingTime)
-                    TextField("Servings (e.g., 8)", text: $viewModel.servings)
+                    TextField("Recipe name", text: $viewModel.title)
+                    TextField("Summary", text: $viewModel.summary)
+                    TextField("Preparation time", text: $viewModel.preparationTime)
+                        .keyboardType(.default)
+                    TextField("Cooking time", text: $viewModel.cookingTime)
+                        .keyboardType(.default)
+                    TextField("Servings", text: $viewModel.servings)
+                        .keyboardType(.default)
                 }
                 
                 Section(header: Text("Ingredients")) {
                     ForEach(viewModel.ingredients) { ingredient in
-                        Text("\(ingredient.name) - \(ingredient.quantity) \(ingredient.unit.rawValue)")
+                        Text("\(ingredient.quantity) \(ingredient.unit.rawValue) \(ingredient.name)")
                     }
+                    .onDelete(perform: viewModel.deleteIngredient)
                     
                     HStack {
-                        TextField("Ingredient name", text: $viewModel.newIngredientName)
-                        TextField("138", text: $viewModel.newIngredientQuantity)
+                        TextField("Name", text: $viewModel.newIngredientName)
+                        TextField("Quantity", text: $viewModel.newIngredientQuantity)
                             .keyboardType(.decimalPad)
-                            .frame(width: 60)
                         Picker("Unit", selection: $viewModel.newIngredientUnit) {
                             ForEach(MeasurementUnit.allCases, id: \.self) { unit in
                                 Text(unit.rawValue).tag(unit)
                             }
                         }
-                        .frame(width: 100)
                     }
                     
                     Button("Add Ingredient") {
                         viewModel.addIngredient()
                     }
-                    .frame(maxWidth: .infinity)
-                    .buttonStyle(.bordered)
+                    .disabled(viewModel.newIngredientName.isEmpty || viewModel.newIngredientQuantity.isEmpty)
                 }
                 
                 Section(header: Text("Instructions")) {
                     ForEach(Array(viewModel.instructions.enumerated()), id: \.offset) { index, instruction in
-                        Text("Step \(index + 1): \(instruction)")
+                        Text("\(index + 1). \(instruction)")
                     }
+                    .onDelete(perform: viewModel.deleteInstruction)
                     
-                    TextField("Step \(viewModel.instructions.count + 1)", text: $viewModel.newInstruction)
-                    
+                    TextField("Add instruction step", text: $viewModel.newInstruction)
                     Button("Add Step") {
                         viewModel.addInstruction()
                     }
-                    .frame(maxWidth: .infinity)
-                    .buttonStyle(.bordered)
+                    .disabled(viewModel.newInstruction.isEmpty)
                 }
             }
-            .navigationTitle("Add Recipe")
+            .navigationTitle("New Recipe")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
-                        isPresented = false
+                        dismiss()
                     }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Add to Recipe List") {
+                    Button("Save") {
                         Task {
                             await viewModel.saveRecipe()
-                            isPresented = false
+                            dismiss()
                         }
                     }
-                    .disabled(viewModel.title.isEmpty)
+                    .disabled(!viewModel.isValid)
                 }
             }
         }
+    }
+}
+
+struct AddRecipeView_Previews: PreviewProvider {
+    static var previews: some View {
+        AddRecipeView(
+            isPresented: .constant(true),
+            recipeListViewModel: RecipeListViewModel()
+        )
     }
 } 
