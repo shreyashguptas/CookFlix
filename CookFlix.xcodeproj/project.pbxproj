@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B82CAB2D2CDE524E00E54430 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = B82CAB2C2CDE524800E54430 /* .gitignore */; };
 		B87C05B62CDDA533005ACA00 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = B87C05B52CDDA533005ACA00 /* Auth */; };
 		B87C05B82CDDA533005ACA00 /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = B87C05B72CDDA533005ACA00 /* Functions */; };
 		B87C05BA2CDDA533005ACA00 /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = B87C05B92CDDA533005ACA00 /* PostgREST */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B82CAB2C2CDE524800E54430 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		B88DDF6A2CDD54D1006E648A /* CookFlix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CookFlix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -47,6 +49,7 @@
 		B88DDF612CDD54D1006E648A = {
 			isa = PBXGroup;
 			children = (
+				B82CAB2C2CDE524800E54430 /* .gitignore */,
 				B88DDF6C2CDD54D1006E648A /* CookFlix */,
 				B88DDF6B2CDD54D1006E648A /* Products */,
 			);
@@ -133,6 +136,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B82CAB2D2CDE524E00E54430 /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
