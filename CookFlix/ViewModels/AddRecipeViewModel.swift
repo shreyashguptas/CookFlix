@@ -5,6 +5,10 @@ class AddRecipeViewModel: ObservableObject {
     @Published var summary = ""
     @Published var ingredients: [Ingredient] = []
     @Published var instructions: [String] = []
+    @Published var preparationTime = ""
+    @Published var cookingTime = ""
+    @Published var servings = ""
+    
     @Published var newIngredientName = ""
     @Published var newIngredientQuantity = ""
     @Published var newIngredientUnit = MeasurementUnit.cup
@@ -28,6 +32,16 @@ class AddRecipeViewModel: ObservableObject {
     }
     
     func saveRecipe() {
-        // TODO: Implement save functionality
+        let recipe = Recipe(
+            title: title,
+            summary: summary,
+            imageName: "placeholder", // You'll need to handle image saving
+            ingredients: ingredients,
+            instructions: instructions,
+            preparationTime: preparationTime,
+            cookingTime: cookingTime,
+            servings: servings
+        )
+        // TODO: Save the recipe to your data store
     }
 } 

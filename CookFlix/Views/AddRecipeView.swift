@@ -7,8 +7,12 @@ struct AddRecipeView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Recipe Name")) {
+                Section(header: Text("Recipe Details")) {
                     TextField("Enter recipe name", text: $viewModel.title)
+                    TextField("Enter recipe summary", text: $viewModel.summary)
+                    TextField("Preparation time (e.g., 1 hr)", text: $viewModel.preparationTime)
+                    TextField("Cooking time (e.g., 45 mins)", text: $viewModel.cookingTime)
+                    TextField("Servings (e.g., 8)", text: $viewModel.servings)
                 }
                 
                 Section(header: Text("Ingredients")) {
