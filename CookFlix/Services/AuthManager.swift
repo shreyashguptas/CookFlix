@@ -52,10 +52,12 @@ class AuthManager: ObservableObject {
     
     func signUp(email: String, password: String) async throws {
         do {
+            let redirectTo = "shreyash.ShreyashGupta.CookFlix://auth/callback"
             let response = try await supabase.client.auth.signUp(
                 email: email,
                 password: password,
-                data: ["email_confirmed": false]
+                data: ["email_confirmed": false],
+                redirectTo: redirectTo
             )
             
             // Since response.user is not optional, we don't need if let

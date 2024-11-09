@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct CookFlixApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @AppStorage("hasSeenWelcomeScreen") private var hasSeenWelcomeScreen = false
     @StateObject private var authManager = AuthManager.shared
     
